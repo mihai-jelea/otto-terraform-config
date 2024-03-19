@@ -10,23 +10,37 @@ https://github.com/mihai-jelea/otto-terraform-config
 
 **Important node:** The code only covers part of the infrastructure (the network configuration, subnets, firewall rules, IAM, APIs, MIGs, HTTPS LB, production Cloud SQ).
 
+## Environments
+
+2 identical environments have been configured `dev` and `prod` 
+For this, the `environments` folder contains sub-folders for each environment
+
+For each environment, specific configs are stored in `terraform.tfvars` and `backend.tf` files. 
+If the infrastructure would differ between environments, we would have different `main.tf` files in each environment folder.
+
 ## Phase 1 Architecture Diagram
 
 ![alt text](/docs/architecture.png)
 
 ## Quick start
 
-You must have a [Google Cloud Platform (GCP)](http://cloud.google.com/) account.
+You must have a [Google Cloud Platform (GCP)](http://cloud.google.com/) account and a project with a billing account set.
 
-Make sure to add you service account key (in json format) in the root directory for authentication.
+Create a service account with the required permissions and download service account key (in json format) in the root directory for authentication.
 
-Go to the `terraform.tfvars` file and configure your environment variables, like project id, billing account, json credentials file, region and zone. 
+Go to the desired environment folder and configure the `terraform.tfvars` file to set the environment variables, like project id, billing account, json credentials file, region and zone. 
 
-Initialize your Terraform workspace, which will download the provider and initialize it with the credentials provided.
+Run the Terraform commands from the root folder. 
 
-` terraform init `
+To initialize your Terraform configuration run the following command (make sure to select the correct folder for the desired environment):
 
-Then, run `terraform plan` and check the configuration carefully. If all seems in order, run `terraform apply` to deploy the infrastructure to Google Cloud.
+`terraform -chdir=./environments/dev init`
+
+Then plan and apply the infrastructure using the same parameter as above. 
+
+`terraform -chdir=./environments/dev plan`
+
+`terraform -chdir=./environments/dev apply`
 
 ## Modules
 
@@ -40,13 +54,6 @@ The list of used modules:
 * [storage](modules/storage/main.tf) - Here you will find the configuration for the required storage buckets
 * [api](modules/api/main.tf) - Here you will find the enabled APIs
 
-
-## Environments
-
-Normally, we would use and `env` folder containing environment specific variable configurations so that the infrastructure can be deployed to multiple environments.
-For each environment we would have specific configs in `terraform.tfvars` and `backend.tf` files. If the infrastructure differs, we would have different `main.tf` files in each environment folder.
-
-For the sake of the exercise I've only created the folders (they are empty)
 
 ## License
 

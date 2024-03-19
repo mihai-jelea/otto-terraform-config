@@ -1,3 +1,15 @@
+# Enable APIs
+module "api" {
+    source = "./modules/api"
+}
+
+# Configure IAM
+module "iam" {
+    source      = "./modules/iam"
+
+    project_id  = var.project_id
+    roles       = ["roles/cloudsql.client", "roles/logging.logWriter", "roles/monitoring.metricWriter"]
+}
 
 # Create VPC
 module "network" {
@@ -19,14 +31,6 @@ module "network" {
 
     # Set name for the Cloud Router
     cloud_router_name = "cloud_router"
-}
-
-# Configure IAM
-module "iam" {
-    source      = "./modules/iam"
-
-    project_id  = var.project_id
-    roles       = ["roles/cloudsql.client", "roles/logging.logWriter", "roles/monitoring.metricWriter"]
 }
 
 # Create the MIGs, UMIGs and LBs

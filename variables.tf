@@ -4,12 +4,6 @@ variable "project_id" {
     nullable    = false
 }
 
-variable "billing_account_id" {
-    description = "The ID of the billing account linked to the project"
-    type        = string
-    nullable    = false
-}
-
 variable "region" {
     description = "The region where the resources will be deployed to"
     type        = string

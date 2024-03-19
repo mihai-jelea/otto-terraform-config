@@ -1,19 +1,25 @@
-# This module enables the required APIs
-module "project-services" {
-  source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 12.0"
+# Enable required APIs
 
-  project_id  = var.project_id
+# Enable Compute Engine API
+resource "google_project_service" "compute" {
+  service                    = "compute.googleapis.com"
+  disable_on_destroy         = true
+}
 
-  activate_apis = [
-    "compute.googleapis.com",
-    "storage.googleapis.com",
-    "sqladmin.googleapis.com",
-    "monitoring.googleapis.com",
-    "logging.googleapis.com",
-    "dns.googleapis.com"
-  ]
+# Enable Cloud SQL API
+resource "google_project_service" "compute" {
+  service                    = "cloudsql.googleapis.com"
+  disable_on_destroy         = true
+}
 
-  # This disables the API after the service is destroyed
-  disable_services_on_destroy = true
+# Enable Kubernetes Engine API
+resource "google_project_service" "compute" {
+  service                    = "container.googleapis.com"
+  disable_on_destroy         = true
+}
+
+# Enable BigQuery API
+resource "google_project_service" "compute" {
+  service                    = "bigquery.googleapis.com"
+  disable_on_destroy         = true
 }

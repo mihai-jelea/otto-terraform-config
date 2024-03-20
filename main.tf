@@ -8,7 +8,7 @@ module "iam" {
     source      = "./modules/iam"
 
     project_id  = var.project_id
-    roles       = ["roles/cloudsql.client", "roles/logging.logWriter", "roles/monitoring.metricWriter"]
+    roles       = ["roles/cloudsql.client", "roles/logging.logWriter", "roles/monitoring.metricWriter", "roles/stackdriver.resourceMetadata.writer", "roles/monitoring.viewer"]
 }
 
 # Create VPC

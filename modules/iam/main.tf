@@ -1,4 +1,4 @@
-# Create a service account for the VMs in the MIGs
+# Create a service account for the GKE nodes
 resource "google_service_account" "web_app_sa" {
     account_id   = "web-app-sa"
     display_name = "My Service Account"
@@ -7,9 +7,9 @@ resource "google_service_account" "web_app_sa" {
 
 # Assign Roles to the SA
 resource "google_project_iam_binding" "cloud_sql_role" {
-    for_each  = toset(var.roles)
+    for_each  = var.roles
 
     project   = var.project_id
     role      = each.value
-    members   = "serviceAccount:${google_service_account.web_app_sa.email}"
+    members   = ["serviceAccount:${google_service_account.web_app_sa.email}"]
 }

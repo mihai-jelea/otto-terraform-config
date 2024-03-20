@@ -6,6 +6,6 @@ variable "project_id" {
 
 variable "roles" {
     description = "The roles that will be granted to the service account."
-    type        = list(string)  
+    type        = set(string)  
     default     = []
 }

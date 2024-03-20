@@ -1,37 +1,6 @@
 # Configure firewall rules
-# 1. Deny all incoming connections
-resource "google_compute_firewall" "deny_all_incoming" {
-    name            = "deny-all-incoming"
-    network         = google_compute_network.vpc_network.self_link
-    project         = var.project_id
 
-    direction       = "INGRESS"
-    priority        = 1000
-    source_ranges   = ["0.0.0.0/0"]
-
-    # Deny all inbound traffic on all ports
-    deny {
-        protocol        = "all"
-    }
-}
-
-# 2. Deny all outgoing connections
-resource "google_compute_firewall" "deny_all_outgoing" {
-    name        = "deny-all-outgoing"
-    network     = google_compute_network.vpc_network.self_link
-    project     = var.project_id
-
-    direction   = "EGRESS"
-    priority    = 1000
-    destination_ranges = ["0.0.0.0/0"]
-
-    # Deny all outbound traffic on all ports
-    deny {
-        protocol = "all"
-    }
-}
-
-# 3. Allow incoming RDP connections to tagged VMs
+# 1. Allow incoming RDP connections to tagged VMs
 resource "google_compute_firewall" "allow_iap_rdp" {
     name        = "allow-iap-rdp"
     network     = google_compute_network.vpc_network.self_link
@@ -51,7 +20,7 @@ resource "google_compute_firewall" "allow_iap_rdp" {
     target_tags = ["iap-rdp-enabled"]
 }
 
-# 4. Allow outgoing TCP connections for tagged VMs to Mailgun IP addresses
+# 2. Allow outgoing TCP connections for tagged VMs to Mailgun IP addresses
 resource "google_compute_firewall" "allow_outgoing_tcp_mailgun" {
     name        = "allow-outgoing-tcp-mailgun"
     network     = google_compute_network.vpc_network.self_link
@@ -87,7 +56,7 @@ resource "google_compute_firewall" "allow_outgoing_tcp_mailgun" {
 }
 
 
-# 5. Allow incoming TCP connections to tagged VMs for health-checks
+# 3. Allow incoming TCP connections to tagged VMs for health-checks
 resource "google_compute_firewall" "allow_health_check" {
     name        = "allow-health-check"
     network     = google_compute_network.vpc_network.self_link
@@ -100,7 +69,7 @@ resource "google_compute_firewall" "allow_health_check" {
 
     allow {
         protocol = "tcp"
-        ports    = ["80, 443"]
+        ports    = ["80"]
     }
 
     # Targeting only VMs that are part of MIGs
@@ -108,7 +77,7 @@ resource "google_compute_firewall" "allow_health_check" {
 }
 
 
-# 5. Allow incoming TCP connections to tagged VMs from LB proxies
+# 4. Allow incoming TCP connections to tagged VMs from LB proxies
 resource "google_compute_firewall" "fw_allow_proxies" {
     name        = "fw-allow-proxies"
     network     = google_compute_network.vpc_network.self_link

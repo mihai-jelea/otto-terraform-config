@@ -39,7 +39,7 @@ module "compute" {
 
     project_id           = var.project_id
     region               = var.region
-    mig_template_name    = "mig_web_app_template"
+    mig_template_name    = "mig-web-app-template"
     web_app_machine_type = "n2-standard-4"
     web_app_disk_size    = 100
     disk_image_uri       = var.disk_image_uri
@@ -53,5 +53,5 @@ module "database" {
     region              = var.region
     db_machine_type     = "db-highmem-16"
     db_disk_size        = 600
-    prod_db_name        = "prod_db"
+    prod_db_name        = "prod-db"
 }

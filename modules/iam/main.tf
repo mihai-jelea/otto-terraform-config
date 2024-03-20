@@ -1,6 +1,6 @@
 # Create a service account for the VMs in the MIGs
 resource "google_service_account" "web_app_sa" {
-    account_id   = "web_app_sa"
+    account_id   = "web-app-sa"
     display_name = "My Service Account"
     description  = "Service account to be used by the VMs in the MIGs"
 }

@@ -1,7 +1,7 @@
 # Configure firewall rules
 # 1. Deny all incoming connections
 resource "google_compute_firewall" "deny_all_incoming" {
-    name            = "deny_all_incoming"
+    name            = "deny-all-incoming"
     network         = google_compute_network.vpc_network.self_link
     project         = var.project_id
 
@@ -17,7 +17,7 @@ resource "google_compute_firewall" "deny_all_incoming" {
 
 # 2. Deny all outgoing connections
 resource "google_compute_firewall" "deny_all_outgoing" {
-    name        = "deny_all_outgoing"
+    name        = "deny-all-outgoing"
     network     = google_compute_network.vpc_network.self_link
     project     = var.project_id
 
@@ -33,7 +33,7 @@ resource "google_compute_firewall" "deny_all_outgoing" {
 
 # 3. Allow incoming RDP connections to tagged VMs
 resource "google_compute_firewall" "allow_iap_rdp" {
-    name        = "allow_iap_rdp"
+    name        = "allow-iap-rdp"
     network     = google_compute_network.vpc_network.self_link
     project     = var.project_id
 
@@ -53,7 +53,7 @@ resource "google_compute_firewall" "allow_iap_rdp" {
 
 # 4. Allow outgoing TCP connections for tagged VMs to Mailgun IP addresses
 resource "google_compute_firewall" "allow_outgoing_tcp_mailgun" {
-    name        = "allow_outgoing_tcp_mailgun"
+    name        = "allow-outgoing-tcp-mailgun"
     network     = google_compute_network.vpc_network.self_link
     project     = var.project_id
 
@@ -89,7 +89,7 @@ resource "google_compute_firewall" "allow_outgoing_tcp_mailgun" {
 
 # 5. Allow incoming TCP connections to tagged VMs for health-checks
 resource "google_compute_firewall" "allow_health_check" {
-    name        = "allow_health_check"
+    name        = "allow-health-check"
     network     = google_compute_network.vpc_network.self_link
     project     = var.project_id
 
@@ -110,7 +110,7 @@ resource "google_compute_firewall" "allow_health_check" {
 
 # 5. Allow incoming TCP connections to tagged VMs from LB proxies
 resource "google_compute_firewall" "fw_allow_proxies" {
-    name        = "fw_allow_proxies"
+    name        = "fw-allow-proxies"
     network     = google_compute_network.vpc_network.self_link
     project     = var.project_id
 

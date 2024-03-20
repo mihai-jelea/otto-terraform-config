@@ -54,7 +54,7 @@ resource "google_compute_instance_template" "web_app" {
 
 # Create MIG in zone a
 resource "google_compute_instance_group_manager" "web_app_mig1" {
-    name = "web_app_mig1"
+    name = "web-app-mig1"
     zone = "${var.region}-a"
     named_port {
         name = "http"
@@ -70,7 +70,7 @@ resource "google_compute_instance_group_manager" "web_app_mig1" {
 
 # Create MIG in zone b
 resource "google_compute_instance_group_manager" "web_app_mig2" {
-    name = "web_app_mig2"
+    name = "web-app-mig2"
     zone = "${var.region}-b"
     named_port {
         name = "http"
@@ -86,7 +86,7 @@ resource "google_compute_instance_group_manager" "web_app_mig2" {
 
 # Create Health Check for web app MIG
 resource "google_compute_region_health_check" "web_app_mig_l7_basic_check" {
-    name               = "web_app_mig_l7_basic_check"
+    name               = "web-app-mig-l7-basic-check"
     check_interval_sec = 5
     healthy_threshold  = 2
     http_health_check {
@@ -101,7 +101,7 @@ resource "google_compute_region_health_check" "web_app_mig_l7_basic_check" {
 
 # Create a backend service for the MIG
 resource "google_compute_region_backend_service" "backend_mig" {
-    name                  = "backend_mig"
+    name                  = "backend-mig"
     region                = var.region
     load_balancing_scheme = "EXTERNAL_MANAGED"
     health_checks         = [google_compute_region_health_check.web_app_mig_l7_basic_check.id]
@@ -124,14 +124,14 @@ resource "google_compute_region_backend_service" "backend_mig" {
 
 # Create URL Map
 resource "google_compute_region_url_map" "web_app_url_map" {
-    name            = "web_app_url_map"
+    name            = "web-app-url-map"
     region          = var.region
     default_service = google_compute_region_backend_service.backend_mig.self_link
 }
 
 # Create Google-managed SSL certificate
 resource "google_compute_managed_ssl_certificate" "web_app_lb_cert" {
-  name = "web_app_lb_cert"
+  name = "web-app-lb-cert"
 
   managed {
     domains = ["otto.nl"]
@@ -140,7 +140,7 @@ resource "google_compute_managed_ssl_certificate" "web_app_lb_cert" {
 
 # Create HTTP Proxy
 resource "google_compute_region_target_https_proxy" "web_app_http_proxy" {
-    name                = "web_app_http_proxy"
+    name                = "web-app-http-proxy"
     region              = var.region
     url_map             = google_compute_region_url_map.web_app_url_map.id
     ssl_certificates    = [google_compute_managed_ssl_certificate.web_app_lb_cert.self_link]
@@ -148,7 +148,7 @@ resource "google_compute_region_target_https_proxy" "web_app_http_proxy" {
 
 # Create Forwarding Rule for HTTPS traffic
 resource "google_compute_forwarding_rule" "web_app_forwarding" {
-    name       = "web_app_forwarding"
+    name       = "web-app-forwarding"
     provider   = google-beta
     depends_on = [google_compute_subnetwork.proxy_only]
     region     = var.region

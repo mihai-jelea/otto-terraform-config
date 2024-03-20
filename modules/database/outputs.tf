@@ -5,5 +5,5 @@ output "mysql_prod" {
 
 output "prod_db" {
     description = "Production database"
-    value = google_sql_database.prod_db.id
+    value = google_sql_database.prod_db.self_link
 }

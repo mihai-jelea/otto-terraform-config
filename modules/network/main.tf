@@ -12,7 +12,7 @@ resource "google_compute_subnetwork" "external_subnet" {
     name          = var.external_subnet_name
     ip_cidr_range = var.external_subnet_cidr_range
     region        = var.region
-    network       = google_compute_network.vpc_network.id
+    network       = google_compute_network.vpc_network.self_link
     # We need this to be able to access Cloud SQL and other Google Cloud services without needing public IPs
     private_ip_google_access = true
 }
@@ -22,7 +22,7 @@ resource "google_compute_subnetwork" "internal_subnet" {
     name          = var.internal_subnet_name
     ip_cidr_range = var.internal_subnet_cidr_range
     region        = var.region
-    network       = google_compute_network.vpc_network.id
+    network       = google_compute_network.vpc_network.self_link
     private_ip_google_access = true
 }
 
@@ -30,7 +30,7 @@ resource "google_compute_subnetwork" "internal_subnet" {
 resource "google_compute_router" "cloud_router" {
     name    = var.cloud_router_name
     region  = var.region
-    network = google_compute_network.vpc_network.id
+    network = google_compute_network.vpc_network.self_link
 }
 
 resource "google_compute_router_nat" "this" {
@@ -41,7 +41,7 @@ resource "google_compute_router_nat" "this" {
     source_subnetwork_ip_ranges_to_nat  = "LIST_OF_SUBNETWORKS"
     # Allow external access only to external subnet
     subnetwork {
-        name                                = google_compute_subnetwork.external_subnet.id
+        name                                = google_compute_subnetwork.external_subnet.self_link
         source_ip_ranges_to_nat             = ["ALL_IP_RANGES"]
     }
 }

@@ -23,3 +23,9 @@ resource "google_project_service" "compute" {
   service                    = "bigquery.googleapis.com"
   disable_on_destroy         = true
 }
+
+# Enable DNS API
+resource "google_project_service" "compute" {
+  service                    = "dns.googleapis.com"
+  disable_on_destroy         = true
+}

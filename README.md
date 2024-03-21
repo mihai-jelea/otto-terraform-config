@@ -8,7 +8,7 @@ This Terraform configuration sets up the infrastructure for Phase 1 of OTTO GCP 
 
 https://github.com/mihai-jelea/otto-terraform-config
 
-**Important node:** The code only covers part of the infrastructure (the network configuration, subnets, firewall rules, IAM, APIs, MIGs, HTTPS LB, production Cloud SQ).
+> **Important note:** The code only covers part of the infrastructure (the network configuration, subnets, firewall rules, IAM, APIs, MIGs, HTTPS LB, production Cloud SQ).
 
 ## Environments
 
